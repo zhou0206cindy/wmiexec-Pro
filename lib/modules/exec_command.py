@@ -18,7 +18,7 @@ class EXEC_COMMAND():
     def __init__(self, iWbemLevel1Login, codec):
         self.iWbemLevel1Login = iWbemLevel1Login
         self.codec = codec
-
+        self.Timeout = 5
         self.obfu = VBSObfuscator()
     
     def save_ToFile(self, hostname, content):
@@ -98,8 +98,8 @@ class EXEC_COMMAND():
             #filer_Query = r"SELECT * FROM __InstanceModificationEvent WITHIN 1 WHERE TargetInstance ISA 'Win32_PerfFormattedData_PerfOS_System'"
             #tag = executer.ExecuteVBS(vbs_content=vbs, filer_Query=filer_Query, returnTag=True)
             
-            # Wait 5 seconds for next step.
-            for i in range(5,0,-1):
+            # Wait {self.timeout} seconds for next step.
+            for i in range(self.Timeout,0,-1):
                 print(f"[+] Waiting {i}s for next step.", end="\r", flush=True)
                 time.sleep(1)
             
@@ -131,8 +131,8 @@ class EXEC_COMMAND():
             #filer_Query = r"SELECT * FROM __InstanceModificationEvent WITHIN 1 WHERE TargetInstance ISA 'Win32_PerfFormattedData_PerfOS_System'"
             #tag = executer.ExecuteVBS(vbs_content=vbs, filer_Query=filer_Query, returnTag=True)
             
-            # Wait 5 seconds for next step.
-            for i in range(5,0,-1):
+            # Wait {self.timeout} seconds for next step.
+            for i in range(self.Timeout,0,-1):
                 print(f"[+] Waiting {i}s for next step.", end="\r", flush=True)
                 time.sleep(1)
         else:
@@ -175,8 +175,8 @@ class EXEC_COMMAND():
         with open('./lib/vbscripts/RemoveTempFile.vbs') as f: vbs = f.read()
         tag = executer.ExecuteVBS(vbs_content=vbs, returnTag=True)
         
-        # Wait 5 seconds for next step.
-        for i in range(5,0,-1):
+        # Wait {self.timeout} seconds for next step.
+        for i in range(self.Timeout,0,-1):
             print(f"[+] Waiting {i}s for next step.", end="\r", flush=True)
             time.sleep(1)
 
@@ -196,7 +196,7 @@ class EXEC_COMMAND_SHELL(cmd.Cmd):
         self.save_fileName = str(int(time.time())) + ".txt"
         self.logging = False
         self.interval = 5
-        self.cwd = 'C:\Windows\System32'
+        self.cwd = 'C:\\Windows\\System32'
         self.prompt = "%s>" %self.cwd
         self.intro = '[!] Launching semi-interactive shell - Careful what you execute'
         self.history = []
